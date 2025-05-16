@@ -1,18 +1,18 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/react';
+import { ThemeToggle } from '@/Components/ThemeToggle.jsx';
+import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
+import { Head, Link } from '@inertiajs/react';
 
-export default function GuestLayout({ children }) {
+export default function GuestLayout({ children, title }) {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+        <>
+            <Head title={title} />
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg dark:bg-gray-800">
-                {children}
+            <div className={'w-full h-24 border-b-2 flex items-center'}>
+                <div className={'container mx-auto flex items-center justify-between'}>
+                    <ApplicationLogo />
+                    <ThemeToggle />
+                </div>
             </div>
-        </div>
+        </>
     );
 }
