@@ -1,8 +1,10 @@
+import { Link } from "@inertiajs/react";
+
 const ApplicationLogo = () => {
     return (
-        <div className={'text-4xl italic font-bold'}>
+        <Link href={route('root')} className={'text-4xl italic font-bold'}>
             DyyApp
-        </div>
+        </Link>
     );
 };
 
