@@ -6,7 +6,6 @@ import { Label } from '@/Components/ui/label.js';
 import GuestLayout from '@/Layouts/GuestLayout';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import { router, useForm } from '@inertiajs/react';
-import { AtSign } from 'lucide-react';
 
 export default function Login({ canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -29,7 +28,7 @@ export default function Login({ canResetPassword }) {
                 <Card className={'w-[500px]'}>
                     <form onSubmit={submit}>
                         <CardHeader>
-                            <ApplicationLogo />
+                            <ApplicationLogo override={'Login'} />
                         </CardHeader>
                         <CardContent className={'space-y-5'}>
                             <div>
@@ -73,7 +72,7 @@ export default function Login({ canResetPassword }) {
                                         Forgot Password
                                     </Button>
                                 )}
-                                <Button className={'flex-1 rounded-l-none'} type={'button'} variant={'outline'}>
+                                <Button className={'flex-1 rounded-l-none'} type={'button'} variant={'outline'} onClick={() => router.visit(route('register'))}>
                                     Register
                                 </Button>
                             </div>

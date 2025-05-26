@@ -3,7 +3,7 @@ import Iridescence from '@/Components/Iridescence/Iridescence.jsx';
 import { ThemeToggle } from '@/Components/ThemeToggle.jsx';
 import Threads from '@/Components/Threads/Threads.jsx';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
 export default function GuestLayout({ children, title }) {
     return (
@@ -19,8 +19,8 @@ export default function GuestLayout({ children, title }) {
                     <ThemeToggle />
                 </div>
             </div>
-            <div className={'pt-24 flex items-center justify-center min-h-screen'}>
-                <div className={'container mx-auto px-5 md:px-0'}>
+            <div className={'pt-24 flex items-center justify-center min-h-screen w-full'}>
+                <div className={'container mx-auto px-5 pb-5 md:px-0'}>
                     {children}
                 </div>
             </div>
