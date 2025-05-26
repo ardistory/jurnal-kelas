@@ -31,10 +31,9 @@ export default function Login({ canResetPassword }) {
                         <CardHeader>
                             <ApplicationLogo />
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className={'space-y-5'}>
                             <div>
                                 <Label htmlFor="email">Email</Label>
-
                                 <Input
                                     id="email"
                                     type="email"
@@ -42,13 +41,10 @@ export default function Login({ canResetPassword }) {
                                     value={data.email}
                                     onChange={(e) => setData('email', e.target.value)}
                                 />
-
                                 <Label className="text-red-500" >{errors.email}</Label>
                             </div>
-
-                            <div className="mt-4">
+                            <div>
                                 <Label htmlFor="password">Password</Label>
-
                                 <Input
                                     id="password"
                                     type="password"
@@ -56,11 +52,9 @@ export default function Login({ canResetPassword }) {
                                     value={data.password}
                                     onChange={(e) => setData('password', e.target.value)}
                                 />
-
                                 <Label className="text-red-500" >{errors.password}</Label>
                             </div>
-
-                            <div className="mt-4 block">
+                            <div>
                                 <label className="flex items-center">
                                     <Checkbox value={data.remember} onCheckedChange={(value) => setData('remember', value)} />
                                     <Label className={'ms-2'}>

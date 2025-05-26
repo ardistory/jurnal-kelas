@@ -45,9 +45,9 @@ export default function AuthenticatedLayout({ children, title, user }) {
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => router.visit(route('profile.edit'))}>
                                         <UserCircleIcon />
-                                        Account
+                                        Profile
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
                                         <BellIcon />
