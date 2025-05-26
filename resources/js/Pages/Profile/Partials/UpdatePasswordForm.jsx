@@ -72,7 +72,6 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 setData('current_password', e.target.value)
                             }
                             type="password"
-                            className="mt-1 block w-full"
                         />
                         <Label className={'text-red-500'}>{errors.current_password}</Label>
                     </div>
@@ -84,7 +83,6 @@ export default function UpdatePasswordForm({ className = '' }) {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             type="password"
-                            className="mt-1 block w-full"
                         />
                         <Label className={'text-red-500'}>{errors.password}</Label>
                     </div>
@@ -97,7 +95,6 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 setData('password_confirmation', e.target.value)
                             }
                             type="password"
-                            className="mt-1 block w-full"
                         />
                         <Label className={'text-red-500'}>{errors.password_confirmation}</Label>
                     </div>

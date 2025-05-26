@@ -43,21 +43,17 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function updatePicture(Request $request): RedirectResponse
     {
         $request->validate([
-            'password' => ['required', 'current_password'],
+            'avatar' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
 
-        $user = $request->user();
+        $filename = $request->user()->id . '.png';
+        $request->file('avatar')->storeAs('avatar', $filename, 'public');
+        $request->user()->avatar = $filename;
+        $request->user()->save();
 
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('profile.edit');
     }
 }
