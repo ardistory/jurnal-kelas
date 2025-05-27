@@ -24,7 +24,7 @@ export default function AuthenticatedLayout({ children, title, user }) {
                             </div>
                         </div>
                     </header>
-                    <div className={'min-h-[calc(100vh-80px)] w-full px-5 md:px-0'}>
+                    <div className={'min-h-[calc(100vh-80px)] w-full px-5 md:px-0 pb-5'}>
                         <div className="container mx-auto flex h-16 shrink-0 items-center">
                             <div className="flex items-center gap-2">
                                 <SidebarTrigger className="-ml-1" />
