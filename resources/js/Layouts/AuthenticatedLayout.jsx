@@ -12,7 +12,7 @@ export default function AuthenticatedLayout({ children, title, user }) {
         <>
             <Head title={title} />
 
-            <div className={'w-full h-20 border-b-2 flex items-center fixed top-0 backdrop-blur-[2px] px-5 md:px-0'}>
+            <div className={'w-full h-20 border-b-2 flex items-center fixed top-0 backdrop-blur-[2px] z-10 px-5 md:px-0'}>
                 <div className={'w-full h-20 absolute -z-[1]'} >
 
                 </div>
