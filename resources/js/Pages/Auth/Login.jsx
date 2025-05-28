@@ -5,12 +5,14 @@ import { Input } from '@/Components/ui/input.js';
 import { Label } from '@/Components/ui/label.js';
 import GuestLayout from '@/Layouts/GuestLayout';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { KeyRound, LogIn, UserPlus } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 export default function Login({ canResetPassword }) {
+    const { app_name } = usePage().props;
+
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -22,7 +24,7 @@ export default function Login({ canResetPassword }) {
 
         post(route('login'), {
             onFinish: () => reset('password'),
-            onSuccess: () => toast('Login Success', { description: 'Welcome to DyyApp' }),
+            onSuccess: () => toast('Login Success', { description: `Welcome to ${app_name}` }),
             onError: (err) => {
                 toast('Failed', { description: err.email });
                 toast('Failed', { description: err.password });
