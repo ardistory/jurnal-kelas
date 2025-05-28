@@ -25,7 +25,16 @@ export default function UpdateProfileInformation({
         e.preventDefault();
 
         patch(route('profile.update'), {
-            onSuccess: () => toast('Success', { description: 'profile updated' })
+            onSuccess: () => toast('Success', { description: 'profile updated' }),
+            onError: (err) => {
+                if (err.name) {
+                    toast('Failed', { description: err.name });
+                }
+
+                if (err.email) {
+                    toast('Failed', { description: err.email });
+                }
+            },
         });
     };
 
@@ -54,7 +63,6 @@ export default function UpdateProfileInformation({
                                 id="name"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
-                                required
                             />
                             <Label className={'text-red-500'}>{errors.name}</Label>
                         </div>
@@ -65,7 +73,6 @@ export default function UpdateProfileInformation({
                                 type="email"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
-                                required
                             />
                             <Label className={'text-red-500'}>{errors.email}</Label>
                         </div>

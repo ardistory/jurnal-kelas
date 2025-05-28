@@ -10,15 +10,7 @@ export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
-    const {
-        data,
-        setData,
-        errors,
-        put,
-        reset,
-        processing,
-        recentlySuccessful,
-    } = useForm({
+    const { data, setData, errors, put, reset, processing } = useForm({
         current_password: '',
         password: '',
         password_confirmation: '',
@@ -29,26 +21,31 @@ export default function UpdatePasswordForm({ className = '' }) {
 
         put(route('password.update'), {
             preserveScroll: true,
-            onSuccess: () => reset(),
-            onError: (errors) => {
-                if (errors.password) {
+            onSuccess: () => {
+                reset();
+                toast('Success', { description: 'password updated' });
+            },
+            onError: (err) => {
+                if (err.password) {
                     reset('password', 'password_confirmation');
                     passwordInput.current.focus();
+                    toast('Failed', { description: err.password });
                 }
 
-                if (errors.current_password) {
+                if (err.current_password) {
                     reset('current_password');
                     currentPasswordInput.current.focus();
+                    toast('Failed', { description: err.current_password });
                 }
             },
         });
     };
 
     useEffect(() => {
-        if (recentlySuccessful) {
-            toast('Success', { description: 'update password' });
+        if (processing) {
+            toast('Process', { description: 'updating password...' });
         }
-    }, [recentlySuccessful]);
+    }, [processing]);
 
     return (
         <Card>
