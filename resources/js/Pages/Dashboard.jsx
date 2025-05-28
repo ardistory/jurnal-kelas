@@ -6,7 +6,7 @@ export default function Dashboard({ auth }) {
         <AuthenticatedLayout title={'Dashboard'} user={auth.user}>
             <Card>
                 <CardHeader>
-                    You're logged in!
+                    Dashboard
                 </CardHeader>
             </Card>
         </AuthenticatedLayout>

@@ -2,7 +2,7 @@ import { ThemeToggle } from '@/Components/ThemeToggle.jsx';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import NavUser from '@/Partials/NavUser.jsx';
 import { Head, router, usePage } from '@inertiajs/react';
-import { AppSidebar } from "@/Components/app-sidebar.js";
+import { AppSidebar } from "@/Components/AppSidebar.jsx";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/Components/ui/breadcrumb.js";
 import { Separator } from "@/Components/ui/separator.js";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar.js";
