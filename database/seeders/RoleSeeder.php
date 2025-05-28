@@ -15,25 +15,24 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             [
-                'level' => 1,
                 'name' => 'Developer',
             ],
             [
-                'level' => 2,
                 'name' => 'Admin',
             ],
             [
-                'level' => 3,
                 'name' => 'Staff',
             ],
             [
-                'level' => 4,
                 'name' => 'Member',
             ],
         ];
 
-        foreach ($roles as $role) {
-            Role::query()->create($role);
+        foreach ($roles as $key => $role) {
+            Role::query()->create([
+                'level' => $key + 1,
+                'name' => $role['name'],
+            ]);
         }
     }
 }

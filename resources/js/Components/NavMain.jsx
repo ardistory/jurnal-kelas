@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Gauge, UserCog } from "lucide-react";
+import { ChevronRight, Contact, Gauge, UserCog } from "lucide-react";
 
 import {
   Collapsible,
@@ -26,8 +26,8 @@ export function NavMain() {
   const navMain = [
     {
       title: 'Dashboard',
+      icon: <Gauge />,
       route: 'dashboard',
-      icon: <Gauge />
     },
     {
       title: "Users Management",
@@ -35,6 +35,7 @@ export function NavMain() {
       items: [
         {
           title: "List Users",
+          icon: <Contact />,
           route: "users-management",
         },
       ],
@@ -70,9 +71,12 @@ export function NavMain() {
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild isActive={(subItem.route === urlSplitedBecomeRouteName)} onClick={() => router.visit(route(subItem.route))}>
-                          <span>
-                            {subItem.title}
-                          </span>
+                          <div>
+                            {subItem.icon}
+                            <span>
+                              {subItem.title}
+                            </span>
+                          </div>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}

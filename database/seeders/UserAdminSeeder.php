@@ -15,9 +15,9 @@ class UserAdminSeeder extends Seeder
     public function run(): void
     {
         User::query()->create([
-            'name' => 'Admin',
-            'email' => 'admin@localhost',
-            'password' => Hash::make('admin123'),
+            'name' => 'Developer',
+            'email' => 'dev@localhost',
+            'password' => Hash::make('dev123'),
             'role_level' => 1,
             'is_user_verified' => true,
         ]);
