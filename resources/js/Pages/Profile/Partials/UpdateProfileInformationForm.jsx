@@ -15,31 +15,25 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
+    const { data, setData, patch, errors, processing } =
         useForm({
             name: user.name,
             email: user.email,
-            avatar: user.avatar,
         });
-
-    const [selectedImage, setSelectedImage] = useState(null);
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
-    };
-
-    const handleImageChange = (e) => {
-        setSelectedImage(e.target.files[0]);
-        setData('avatar', e.target.files[0]);
+        patch(route('profile.update'), {
+            onSuccess: () => toast('Success', { description: 'profile updated' })
+        });
     };
 
     useEffect(() => {
-        if (recentlySuccessful) {
-            toast('Success', { description: 'update profile' });
+        if (processing) {
+            toast('Process', { description: 'updating profile...' });
         }
-    }, [recentlySuccessful]);
+    }, [processing]);
 
     return (
         <Card>
