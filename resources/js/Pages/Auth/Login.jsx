@@ -6,6 +6,7 @@ import { Label } from '@/Components/ui/label.js';
 import GuestLayout from '@/Layouts/GuestLayout';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import { router, useForm } from '@inertiajs/react';
+import { KeyRound, LogIn, UserPlus } from 'lucide-react';
 
 export default function Login({ canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -53,26 +54,27 @@ export default function Login({ canResetPassword }) {
                                 />
                                 <Label className="text-red-500" >{errors.password}</Label>
                             </div>
-                            <div>
-                                <label className="flex items-center">
-                                    <Checkbox value={data.remember} onCheckedChange={(value) => setData('remember', value)} />
-                                    <Label className={'ms-2'}>
-                                        Remember me
-                                    </Label>
-                                </label>
+                            <div className="flex items-center">
+                                <Checkbox id={'remember'} value={data.remember} onCheckedChange={(value) => setData('remember', value)} />
+                                <Label htmlFor={'remember'} className={'ms-2'}>
+                                    Remember me
+                                </Label>
                             </div>
                         </CardContent>
                         <CardFooter className={'flex flex-wrap gap-2'}>
                             <Button type={'submit'} className={'w-full'} disabled={processing}>
+                                <LogIn />
                                 Login
                             </Button>
                             <div className={'flex w-full'}>
                                 {canResetPassword && (
                                     <Button className={'flex-1 rounded-r-none'} type={'button'} variant={'outline'} onClick={() => router.visit(route('password.request'))}>
+                                        <KeyRound />
                                         Forgot Password
                                     </Button>
                                 )}
                                 <Button className={'flex-1 rounded-l-none'} type={'button'} variant={'outline'} onClick={() => router.visit(route('register'))}>
+                                    <UserPlus />
                                     Register
                                 </Button>
                             </div>
