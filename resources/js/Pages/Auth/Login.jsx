@@ -7,6 +7,8 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import { router, useForm } from '@inertiajs/react';
 import { KeyRound, LogIn, UserPlus } from 'lucide-react';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function Login({ canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -20,8 +22,17 @@ export default function Login({ canResetPassword }) {
 
         post(route('login'), {
             onFinish: () => reset('password'),
+            onSuccess: () => toast('Login Success', { description: 'Welcome to DyyApp' }),
+            onError: (err) => {
+                toast('Failed', { description: err.email });
+                toast('Failed', { description: err.password });
+            }
         });
     };
+
+    useEffect(() => {
+        (processing) ? toast('Process', { description: 'Authentication...' }) : null;
+    }, [processing]);
 
     return (
         <GuestLayout title={'Login'}>
