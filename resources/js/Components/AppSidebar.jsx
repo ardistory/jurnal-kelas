@@ -23,7 +23,7 @@ export function AppSidebar({ user, ...props }) {
           <SidebarMenuItem>
             <SidebarMenuButton>
               <Favicon />
-              <span className="italic text-2xl">
+              <span className="italic text-2xl font-bold">
                 {app_name}
               </span>
             </SidebarMenuButton>
