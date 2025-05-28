@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Models\User;
+use App\Http\Controllers\UsersManagementController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,14 +17,8 @@ Route::get('/', function () {
 })->middleware(['guest'])->name('root');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-
-    Route::get('/users-management', function () {
-        return Inertia::render('UsersManagement');
-    })->name('users-management');
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users-management', [UsersManagementController::class, 'index'])->name('users-management');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.update.picture');
