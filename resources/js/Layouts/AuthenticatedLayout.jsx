@@ -27,7 +27,7 @@ export default function AuthenticatedLayout({ children, title, user }) {
                 <SidebarInset>
                     <header className={'w-full h-20 border-b-2 flex items-center'}>
                         <div className={'container mx-auto flex items-center justify-between px-5 md:px-0'}>
-                            <ApplicationLogo />
+                            <ApplicationLogo override={title} />
                             <div className={'flex items-center gap-5'}>
                                 <ThemeToggle />
                                 {/* <NavUser user={user} /> */}
