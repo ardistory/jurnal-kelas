@@ -6,7 +6,7 @@ import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import { router } from '@inertiajs/react';
 import { LogIn } from 'lucide-react';
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Root({ auth, laravelVersion, phpVersion }) {
     return (
         <GuestLayout title={'Welcome'}>
             <Card className={'md:mx-[500px]'}>

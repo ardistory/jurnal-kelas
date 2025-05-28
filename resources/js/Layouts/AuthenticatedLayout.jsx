@@ -1,13 +1,23 @@
 import { ThemeToggle } from '@/Components/ThemeToggle.jsx';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import NavUser from '@/Partials/NavUser.jsx';
-import { Head } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { AppSidebar } from "@/Components/app-sidebar.js";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/Components/ui/breadcrumb.js";
 import { Separator } from "@/Components/ui/separator.js";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar.js";
+import React from 'react';
 
 export default function AuthenticatedLayout({ children, title, user }) {
+    const { component } = usePage();
+    const breadcrumbs = [{ component: 'Root', route: 'root' }];
+
+    const componentSplited = component.split('/');
+
+    if (component != 'Root') {
+        componentSplited.map(comp => breadcrumbs.push({ component: comp }));
+    }
+
     return (
         <>
             <Head title={title} />
@@ -31,15 +41,22 @@ export default function AuthenticatedLayout({ children, title, user }) {
                                 <Separator orientation="vertical" className="mr-2 h-4" />
                                 <Breadcrumb>
                                     <BreadcrumbList>
-                                        <BreadcrumbItem className="hidden md:block">
-                                            <BreadcrumbLink href="#">
-                                                Root
-                                            </BreadcrumbLink>
-                                        </BreadcrumbItem>
-                                        <BreadcrumbSeparator className="hidden md:block" />
-                                        <BreadcrumbItem>
-                                            <BreadcrumbPage>Dashboard</BreadcrumbPage>
-                                        </BreadcrumbItem>
+                                        {breadcrumbs.map((breadcrumb, index) => (
+                                            <React.Fragment key={breadcrumb.component}>
+                                                <BreadcrumbItem>
+                                                    {(breadcrumb.component === 'Root') ? (
+                                                        <BreadcrumbLink className={'cursor-pointer'} onClick={() => router.visit(route(breadcrumb.route))}>
+                                                            {breadcrumb.component}
+                                                        </BreadcrumbLink>
+                                                    ) : (
+                                                        <BreadcrumbPage>
+                                                            {breadcrumb.component}
+                                                        </BreadcrumbPage>
+                                                    )}
+                                                </BreadcrumbItem>
+                                                {(index != breadcrumbs.length - 1) ? (<BreadcrumbSeparator />) : null}
+                                            </React.Fragment>
+                                        ))}
                                     </BreadcrumbList>
                                 </Breadcrumb>
                             </div>
