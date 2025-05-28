@@ -9,7 +9,7 @@ const UsersManagement = ({ auth, users }) => {
             {users.map(user => (
                 <Card key={user.email} className={'mb-5 last:mb-0'}>
                     <CardHeader>
-                        <div className={'flex'}>
+                        <div className={'flex items-center justify-between'}>
                             <div className={'flex items-center gap-2'}>
                                 <Avatar className={'rounded-lg'}>
                                     <AvatarImage src={`/storage/avatar/${user.avatar}`} />

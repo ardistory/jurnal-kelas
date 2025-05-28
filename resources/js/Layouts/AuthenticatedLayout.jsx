@@ -25,8 +25,8 @@ export default function AuthenticatedLayout({ children, title, user }) {
             <SidebarProvider>
                 <AppSidebar user={user} />
                 <SidebarInset>
-                    <header className={'w-full h-20 border-b-2 flex items-center'}>
-                        <div className={'container mx-auto flex items-center justify-between px-5 md:px-0'}>
+                    <header className={'w-full h-20 border-b-2 flex items-center px-5'}>
+                        <div className={'container mx-auto flex items-center justify-between'}>
                             <ApplicationLogo override={title} />
                             <div className={'flex items-center gap-5'}>
                                 <ThemeToggle />
@@ -34,7 +34,7 @@ export default function AuthenticatedLayout({ children, title, user }) {
                             </div>
                         </div>
                     </header>
-                    <div className={'min-h-[calc(100vh-80px)] w-full px-5 md:px-0 pb-5'}>
+                    <div className={'min-h-[calc(100vh-80px)] w-full px-5 pb-5'}>
                         <div className="container mx-auto flex h-16 shrink-0 items-center">
                             <div className="flex items-center gap-2">
                                 <SidebarTrigger className="-ml-1" />
