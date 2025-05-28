@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/Components/ui/sidebar";
-import Favicon from "./Favicon";
+import RadixUI from "./RadixUI";
 import { usePage } from "@inertiajs/react";
 
 export function AppSidebar({ user, ...props }) {
@@ -22,7 +22,7 @@ export function AppSidebar({ user, ...props }) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <Favicon />
+              <RadixUI className='dark' />
               <span className="italic text-2xl font-bold">
                 {app_name}
               </span>

@@ -1,14 +1,36 @@
-import { Card, CardHeader } from "@/Components/ui/card.js";
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar.js";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 
-const UsersManagement = ({ auth }) => {
+const UsersManagement = ({ auth, users }) => {
+    console.log(users);
     return (
         <AuthenticatedLayout title={'Users Management'} user={auth.user}>
-            <Card>
-                <CardHeader>
-                    Users Management
-                </CardHeader>
-            </Card>
+            {users.map(user => (
+                <Card key={user.email} className={'mb-5 last:mb-0'}>
+                    <CardHeader>
+                        <div className={'flex'}>
+                            <div className={'flex items-center gap-2'}>
+                                <Avatar className={'rounded-lg'}>
+                                    <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                    <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <CardTitle>
+                                        {user.name}
+                                    </CardTitle>
+                                    <CardDescription>
+                                        {user.email}
+                                    </CardDescription>
+                                </div>
+                            </div>
+                            <div>
+                                f
+                            </div>
+                        </div>
+                    </CardHeader>
+                </Card>
+            ))}
         </AuthenticatedLayout>
     );
 };
