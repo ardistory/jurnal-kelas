@@ -4,7 +4,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/Components/ui/ca
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import { router, useForm } from "@inertiajs/react";
-import { Pencil, ShieldX, Trash2, TriangleAlert } from "lucide-react";
+import { BadgeCheck, Pencil, ShieldX, Trash2, TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -84,58 +84,66 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                     </Avatar>
                                     <div>
                                         <CardTitle>
-                                            {user.name}
+                                            <div className={'flex items-center gap-1'}>
+                                                {user.name}
+                                                {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                            </div>
                                         </CardTitle>
                                         <CardDescription>
                                             {user.roles.name}
                                         </CardDescription>
                                     </div>
                                 </div>
-                                <div className={'flex gap-5'}>
-                                    <Button size={'icon'} variant={'outline'}>
-                                        <Pencil />
-                                    </Button>
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button size={'icon'} variant={'outline'}>
-                                                <Trash2 />
-                                            </Button>
-                                        </DialogTrigger>
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                <DialogDescription>
-                                                    This action cannot be undone. this will permanently delete your account
-                                                    and remove your data from our servers.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <Card>
-                                                <CardHeader>
-                                                    <div className={'flex items-center justify-between'}>
-                                                        <div className={'flex items-center gap-2'}>
-                                                            <Avatar className={'rounded-lg'}>
-                                                                <AvatarImage src={`/storage/avatar/${user.avatar}`} />
-                                                                <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
-                                                            </Avatar>
-                                                            <div>
-                                                                <CardTitle>
-                                                                    {user.name}
-                                                                </CardTitle>
-                                                                <CardDescription>
-                                                                    {user.roles.name}
-                                                                </CardDescription>
+                                {user.role_level != 1 && (
+                                    <div className={'flex gap-5'}>
+                                        <Button size={'icon'} variant={'outline'}>
+                                            <Pencil />
+                                        </Button>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button size={'icon'} variant={'outline'}>
+                                                    <Trash2 />
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                                    <DialogDescription>
+                                                        This action cannot be undone. this will permanently delete your account
+                                                        and remove your data from our servers.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <Card>
+                                                    <CardHeader>
+                                                        <div className={'flex items-center justify-between'}>
+                                                            <div className={'flex items-center gap-2'}>
+                                                                <Avatar className={'rounded-lg'}>
+                                                                    <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                    <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                                </Avatar>
+                                                                <div>
+                                                                    <CardTitle>
+                                                                        <div className={'flex items-center gap-1'}>
+                                                                            {user.name}
+                                                                            {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                        </div>
+                                                                    </CardTitle>
+                                                                    <CardDescription>
+                                                                        {user.roles.name}
+                                                                    </CardDescription>
+                                                                </div>
                                                             </div>
+                                                            <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
+                                                                <Trash2 />
+                                                                Delete
+                                                            </Button>
                                                         </div>
-                                                        <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
-                                                            <Trash2 />
-                                                            Delete
-                                                        </Button>
-                                                    </div>
-                                                </CardHeader>
-                                            </Card>
-                                        </DialogContent>
-                                    </Dialog>
-                                </div>
+                                                    </CardHeader>
+                                                </Card>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                )}
                             </div>
                         </CardHeader>
                     </Card>
@@ -169,58 +177,66 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                         </Avatar>
                                         <div>
                                             <CardTitle>
-                                                {user.name}
+                                                <div className={'flex items-center gap-1'}>
+                                                    {user.name}
+                                                    {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                </div>
                                             </CardTitle>
                                             <CardDescription>
                                                 {user.roles.name}
                                             </CardDescription>
                                         </div>
                                     </div>
-                                    <div className={'flex gap-5'}>
-                                        <Button size={'icon'} variant={'outline'}>
-                                            <Pencil />
-                                        </Button>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button size={'icon'} variant={'outline'}>
-                                                    <Trash2 />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be undone. This will permanently delete this account
-                                                        and remove your data from our servers.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <Card>
-                                                    <CardHeader>
-                                                        <div className={'flex items-center justify-between'}>
-                                                            <div className={'flex items-center gap-2'}>
-                                                                <Avatar className={'rounded-lg'}>
-                                                                    <AvatarImage src={`/storage/avatar/${user.avatar}`} />
-                                                                    <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
-                                                                </Avatar>
-                                                                <div>
-                                                                    <CardTitle>
-                                                                        {user.name}
-                                                                    </CardTitle>
-                                                                    <CardDescription>
-                                                                        {user.roles.name}
-                                                                    </CardDescription>
+                                    {user.role_level != 1 && (
+                                        <div className={'flex gap-5'}>
+                                            <Button size={'icon'} variant={'outline'}>
+                                                <Pencil />
+                                            </Button>
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button size={'icon'} variant={'outline'}>
+                                                        <Trash2 />
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                                        <DialogDescription>
+                                                            This action cannot be undone. This will permanently delete this account
+                                                            and remove your data from our servers.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <Card>
+                                                        <CardHeader>
+                                                            <div className={'flex items-center justify-between'}>
+                                                                <div className={'flex items-center gap-2'}>
+                                                                    <Avatar className={'rounded-lg'}>
+                                                                        <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                        <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                                    </Avatar>
+                                                                    <div>
+                                                                        <CardTitle>
+                                                                            <div className={'flex items-center gap-1'}>
+                                                                                {user.name}
+                                                                                {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                            </div>
+                                                                        </CardTitle>
+                                                                        <CardDescription>
+                                                                            {user.roles.name}
+                                                                        </CardDescription>
+                                                                    </div>
                                                                 </div>
+                                                                <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
+                                                                    <Trash2 />
+                                                                    Delete
+                                                                </Button>
                                                             </div>
-                                                            <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
-                                                                <Trash2 />
-                                                                Delete
-                                                            </Button>
-                                                        </div>
-                                                    </CardHeader>
-                                                </Card>
-                                            </DialogContent>
-                                        </Dialog>
-                                    </div>
+                                                        </CardHeader>
+                                                    </Card>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </div>
+                                    )}
                                 </div>
                             </CardHeader>
                         </Card>
