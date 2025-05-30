@@ -18,7 +18,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/users-management', [UsersManagementController::class, 'index'])->name('users-management');
+    Route::patch('/users-management', [UsersManagementController::class, 'update'])->name('users-management.update');
+    Route::delete('/users-management/{id}', [UsersManagementController::class, 'destroy'])->name('users-management.destroy');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.update.picture');

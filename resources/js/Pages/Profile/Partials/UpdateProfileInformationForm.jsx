@@ -25,6 +25,7 @@ export default function UpdateProfileInformation({
         e.preventDefault();
 
         patch(route('profile.update'), {
+            preserveScroll: true,
             onSuccess: () => toast('Success', { description: 'profile updated' }),
             onError: (err) => {
                 if (err.name) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,17 +14,39 @@ class UsersManagementController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $usersAll = User::query()->with('roles')->get();
+        $usersPaginate = User::with('roles')->paginate(5);
+        $roles = Role::all();
 
-        return Inertia::render('UsersManagement', ['users' => $users]);
+        return Inertia::render('UsersManagement', [
+            'usersPaginate' => $usersPaginate,
+            'roles' => $roles,
+            'usersAll' => $usersAll,
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Update the specified resource in storage.
      */
-    public function create()
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required|integer',
+            'newRoleLevelValue' => 'required|integer',
+        ]);
+
+        $user = User::find($request->input('id'));
+        $user->role_level = $request->input('newRoleLevelValue');
+        $user->save();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $user = User::find($id);
+        $user->delete();
     }
 
     /**
@@ -46,22 +69,6 @@ class UsersManagementController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }
