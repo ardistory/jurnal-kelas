@@ -20,7 +20,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 
 const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
-    console.log(usersPaginate);
     const [search, setSearch] = useState('');
     const [allUsersFiltered, setAllUsersFiltered] = useState([]);
 
@@ -106,7 +105,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                             <DialogHeader>
                                                 <DialogTitle>Are you absolutely sure?</DialogTitle>
                                                 <DialogDescription>
-                                                    This action cannot be undone. This will permanently delete your account
+                                                    This action cannot be undone. this will permanently delete your account
                                                     and remove your data from our servers.
                                                 </DialogDescription>
                                             </DialogHeader>
@@ -191,7 +190,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                                 <DialogHeader>
                                                     <DialogTitle>Are you absolutely sure?</DialogTitle>
                                                     <DialogDescription>
-                                                        This action cannot be undone. This will permanently delete your account
+                                                        This action cannot be undone. This will permanently delete this account
                                                         and remove your data from our servers.
                                                     </DialogDescription>
                                                 </DialogHeader>
@@ -243,7 +242,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                                     <PaginationLink isActive={link.active} className={'cursor-pointer'} onClick={() => router.visit(link.url)}>
                                                         {link.label}
                                                     </PaginationLink>
-                                                    to
+                                                    /
                                                     <PaginationLink isActive={link.active} className={'cursor-pointer'} onClick={() => router.visit(usersPaginate.last_page_url)}>
                                                         {usersPaginate.last_page}
                                                     </PaginationLink>
