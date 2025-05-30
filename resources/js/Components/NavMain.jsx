@@ -70,7 +70,7 @@ export function NavMain() {
                   <SidebarMenuSub>
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild isActive={(subItem.route === urlSplitedBecomeRouteName)} onClick={() => router.visit(route(subItem.route))}>
+                        <SidebarMenuSubButton className={'cursor-pointer'} asChild isActive={(subItem.route === urlSplitedBecomeRouteName)} onClick={() => router.visit(route(subItem.route))}>
                           <div>
                             {subItem.icon}
                             <span>
