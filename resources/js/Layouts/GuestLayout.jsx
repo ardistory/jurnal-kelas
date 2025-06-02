@@ -3,9 +3,11 @@ import Iridescence from '@/Components/Iridescence/Iridescence.jsx';
 import { ThemeToggle } from '@/Components/ThemeToggle.jsx';
 import Threads from '@/Components/Threads/Threads.jsx';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function GuestLayout({ children, title }) {
+    const { app_name } = usePage().props;
+
     return (
         <>
             <Head title={title} />
@@ -15,7 +17,7 @@ export default function GuestLayout({ children, title }) {
 
                 </div>
                 <div className={'container mx-auto flex items-center justify-between'}>
-                    <ApplicationLogo />
+                    <ApplicationLogo override={app_name} />
                     <ThemeToggle />
                 </div>
             </div>
