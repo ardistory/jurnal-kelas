@@ -17,6 +17,7 @@ import {
 } from "@/Components/ui/pagination";
 import { Input } from "@/Components/ui/input.js";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog.js";
+import { Label } from "@/Components/ui/label.js";
 
 
 const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
@@ -96,9 +97,24 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                 </div>
                                 {user.role_level != 1 && (
                                     <div className={'flex gap-5'}>
-                                        <Button size={'icon'} variant={'outline'}>
-                                            <Pencil />
-                                        </Button>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button size={'icon'} variant={'outline'}>
+                                                    <Pencil />
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        f
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        f
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <p>tset</p>
+                                            </DialogContent>
+                                        </Dialog>
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button size={'icon'} variant={'outline'}>
@@ -189,9 +205,66 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                     </div>
                                     {user.role_level != 1 && (
                                         <div className={'flex gap-5'}>
-                                            <Button size={'icon'} variant={'outline'}>
-                                                <Pencil />
-                                            </Button>
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button size={'icon'} variant={'outline'}>
+                                                        <Pencil />
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>
+                                                            <div className={'flex items-center gap-2'}>
+                                                                <Avatar className={'rounded-lg'}>
+                                                                    <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                    <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                                </Avatar>
+                                                                <div>
+                                                                    <CardTitle>
+                                                                        <div className={'flex items-center gap-1'}>
+                                                                            {user.name}
+                                                                            {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                        </div>
+                                                                    </CardTitle>
+                                                                    <CardDescription>
+                                                                        {user.roles.name}
+                                                                    </CardDescription>
+                                                                </div>
+                                                            </div>
+                                                        </DialogTitle>
+                                                    </DialogHeader>
+                                                    <form>
+                                                        <div className={'space-y-5'}>
+                                                            <div>
+                                                                <Label>
+                                                                    Name
+                                                                </Label>
+                                                                <Input value={user.name} />
+                                                            </div>
+                                                            <div>
+                                                                <Label>
+                                                                    Role
+                                                                </Label>
+                                                                <Select>
+                                                                    <SelectValue />
+                                                                    <SelectContent>
+                                                                        <SelectGroup key={user.id}>
+                                                                            {roles.map(role => (
+                                                                                <SelectItem value={role.level}>
+                                                                                    {role.name}
+                                                                                </SelectItem>
+                                                                            ))}
+                                                                        </SelectGroup>
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            </div>
+                                                            <Button>
+                                                                Save
+                                                            </Button>
+                                                        </div>
+                                                    </form>
+                                                </DialogContent>
+                                            </Dialog>
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button size={'icon'} variant={'outline'}>
