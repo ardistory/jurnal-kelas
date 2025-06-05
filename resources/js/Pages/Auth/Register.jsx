@@ -5,6 +5,7 @@ import { Label } from '@/Components/ui/label.js';
 import GuestLayout from '@/Layouts/GuestLayout';
 import ApplicationLogo from '@/Partials/ApplicationLogo.jsx';
 import { router, useForm } from '@inertiajs/react';
+import { UserCheck, UserRoundPlus } from 'lucide-react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -84,9 +85,11 @@ export default function Register() {
                         <CardFooter>
                             <div className={'flex w-full'}>
                                 <Button type={'submit'} variant={'outline'} disabled={processing} className={'flex-1 rounded-r-none'}>
+                                    <UserRoundPlus />
                                     Register
                                 </Button>
                                 <Button type={'button'} variant={'outline'} className={'flex-1 rounded-l-none'} onClick={() => router.visit(route('login'))}>
+                                    <UserCheck />
                                     Already registered
                                 </Button>
                             </div>
