@@ -7,6 +7,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from "@/Components/ui/separator.js";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/Components/ui/sidebar.js";
 import React from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/Components/ui/alert.js';
 
 export default function AuthenticatedLayout({ children, title, user }) {
     const { component } = usePage();
@@ -62,7 +63,18 @@ export default function AuthenticatedLayout({ children, title, user }) {
                             </div>
                         </div>
                         <div className="container mx-auto">
-                            {children}
+                            {user.is_user_verified ? (
+                                children
+                            ) : (
+                                <Alert className={'bg-red-500 dark:bg-red-500 text-white'}>
+                                    <AlertTitle>
+                                        Access denied!
+                                    </AlertTitle>
+                                    <AlertDescription>
+                                        Your account has not been verified, please contact your admin.
+                                    </AlertDescription>
+                                </Alert>
+                            )}
                         </div>
                     </div>
                 </SidebarInset>

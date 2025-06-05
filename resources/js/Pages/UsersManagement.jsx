@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar.js";
 import { Button } from "@/Components/ui/button.js";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card.js";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card.js";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import { router, useForm } from "@inertiajs/react";
@@ -18,6 +18,7 @@ import {
 import { Input } from "@/Components/ui/input.js";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog.js";
 import { Label } from "@/Components/ui/label.js";
+import { Switch } from "@/Components/ui/switch.js";
 
 
 const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
@@ -28,7 +29,8 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
     const { data, setData, patch, processing } = useForm({
         id: '',
         newName: '',
-        newRoleLevelValue: ''
+        newRoleLevelValue: '',
+        newIsUserVerified: '',
     });
 
     const openEditDialog = (user) => {
@@ -37,7 +39,8 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
         setData({
             id: user.id,
             newName: user.name,
-            newRoleLevelValue: user.role_level.toString()
+            newRoleLevelValue: user.role_level.toString(),
+            newIsUserVerified: user.is_user_verified,
         });
     };
 
@@ -106,158 +109,10 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                         </CardDescription>
                                     </div>
                                 </div>
-                                {user.role_level != 1 && (
-                                    <div className={'flex gap-5'}>
-                                        <Dialog onOpenChange={(open) => open && openEditDialog(user)}>
-                                            <DialogTrigger asChild>
-                                                <Button size={'icon'} variant={'outline'}>
-                                                    <Pencil />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        <div className={'flex items-center gap-2'}>
-                                                            <Avatar className={'rounded-lg'}>
-                                                                <AvatarImage src={`/storage/avatar/${user.avatar}`} />
-                                                                <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
-                                                            </Avatar>
-                                                            <div>
-                                                                <CardTitle>
-                                                                    <div className={'flex items-center gap-1'}>
-                                                                        {user.name}
-                                                                        {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
-                                                                    </div>
-                                                                </CardTitle>
-                                                                <CardDescription className={'flex justify-start'}>
-                                                                    {user.roles.name}
-                                                                </CardDescription>
-                                                            </div>
-                                                        </div>
-                                                    </DialogTitle>
-                                                    <DialogDescription />
-                                                </DialogHeader>
-                                                <form onSubmit={handlePatchUser} className={'space-y-5'}>
-                                                    <div>
-                                                        <Label>
-                                                            Name
-                                                        </Label>
-                                                        <Input placeholder={user.name} value={data.newName} onChange={(e) => setData('newName', e.target.value)} />
-                                                    </div>
-                                                    <div>
-                                                        <Label>
-                                                            Role
-                                                        </Label>
-                                                        <Select value={data.newRoleLevelValue} onValueChange={value => setData('newRoleLevelValue', value)}>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder={'Select role'} />
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectGroup>
-                                                                    {roles.map(role => (
-                                                                        <SelectItem key={role.level} value={role.level.toString()}>
-                                                                            {role.name}
-                                                                        </SelectItem>
-                                                                    ))}
-                                                                </SelectGroup>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-                                                    <Button type={'submit'}>
-                                                        Save
-                                                    </Button>
-                                                </form>
-                                            </DialogContent>
-                                        </Dialog>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button size={'icon'} variant={'outline'}>
-                                                    <Trash2 />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be undone. this will permanently delete your account
-                                                        and remove your data from our servers.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <Card>
-                                                    <CardHeader>
-                                                        <div className={'flex items-center justify-between'}>
-                                                            <div className={'flex items-center gap-2'}>
-                                                                <Avatar className={'rounded-lg'}>
-                                                                    <AvatarImage src={`/storage/avatar/${user.avatar}`} />
-                                                                    <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
-                                                                </Avatar>
-                                                                <div>
-                                                                    <CardTitle>
-                                                                        <div className={'flex items-center gap-1'}>
-                                                                            {user.name}
-                                                                            {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
-                                                                        </div>
-                                                                    </CardTitle>
-                                                                    <CardDescription>
-                                                                        {user.roles.name}
-                                                                    </CardDescription>
-                                                                </div>
-                                                            </div>
-                                                            <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
-                                                                <Trash2 />
-                                                                Delete
-                                                            </Button>
-                                                        </div>
-                                                    </CardHeader>
-                                                </Card>
-                                            </DialogContent>
-                                        </Dialog>
-                                    </div>
-                                )}
-                            </div>
-                        </CardHeader>
-                    </Card>
-                ))
-            ) : (!allUsersFiltered.length > 0 && search.length > 0) ? (
-                <Card>
-                    <CardHeader>
-                        <div className={'flex items-center gap-2'}>
-                            <TriangleAlert />
-                            <div>
-                                <CardTitle>
-                                    Not Found
-                                </CardTitle>
-                                <CardDescription>
-                                    user with name containing '{search}' not found
-                                </CardDescription>
-                            </div>
-                        </div>
-                    </CardHeader>
-                </Card>
-            ) : (
-                <div>
-                    {usersPaginate.data.map(user => (
-                        <Card key={user.email} className={'mb-5 last:mb-0'}>
-                            <CardHeader>
-                                <div className={'flex items-center justify-between'}>
-                                    <div className={'flex items-center gap-2'}>
-                                        <Avatar className={'rounded-lg'}>
-                                            <AvatarImage src={`/storage/avatar/${user.avatar}`} />
-                                            <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <CardTitle>
-                                                <div className={'flex items-center gap-1'}>
-                                                    {user.name}
-                                                    {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
-                                                </div>
-                                            </CardTitle>
-                                            <CardDescription>
-                                                {user.roles.name}
-                                            </CardDescription>
-                                        </div>
-                                    </div>
-                                    {user.role_level != 1 && (
+                                {(user.id !== auth.user.id && (
+                                    (auth.user.role_level === 1 && user.role_level > 1) ||
+                                    (auth.user.role_level === 2 && user.role_level > 2)
+                                )) && (
                                         <div className={'flex gap-5'}>
                                             <Dialog onOpenChange={(open) => open && openEditDialog(user)}>
                                                 <DialogTrigger asChild>
@@ -306,13 +161,30 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                                                 <SelectContent>
                                                                     <SelectGroup>
                                                                         {roles.map(role => (
-                                                                            <SelectItem key={role.level} value={role.level.toString()}>
-                                                                                {role.name}
-                                                                            </SelectItem>
+                                                                            role.level != 1 && (
+                                                                                <SelectItem key={role.level} value={role.level.toString()}>
+                                                                                    {role.name}
+                                                                                </SelectItem>
+                                                                            )
                                                                         ))}
                                                                     </SelectGroup>
                                                                 </SelectContent>
                                                             </Select>
+                                                        </div>
+                                                        <div>
+                                                            <Card>
+                                                                <CardHeader>
+                                                                    <CardTitle>
+                                                                        Verify this user?
+                                                                    </CardTitle>
+                                                                    <CardDescription>
+                                                                        Verified users will be able to use the features on this website.
+                                                                    </CardDescription>
+                                                                </CardHeader>
+                                                                <CardContent>
+                                                                    <Switch checked={data.newIsUserVerified} onCheckedChange={checked => setData('newIsUserVerified', checked)} />
+                                                                </CardContent>
+                                                            </Card>
                                                         </div>
                                                         <Button type={'submit'}>
                                                             Save
@@ -330,7 +202,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                                     <DialogHeader>
                                                         <DialogTitle>Are you absolutely sure?</DialogTitle>
                                                         <DialogDescription>
-                                                            This action cannot be undone. This will permanently delete this account
+                                                            This action cannot be undone. this will permanently delete your account
                                                             and remove your data from our servers.
                                                         </DialogDescription>
                                                     </DialogHeader>
@@ -365,6 +237,177 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                             </Dialog>
                                         </div>
                                     )}
+                            </div>
+                        </CardHeader>
+                    </Card>
+                ))
+            ) : (!allUsersFiltered.length > 0 && search.length > 0) ? (
+                <Card>
+                    <CardHeader>
+                        <div className={'flex items-center gap-2'}>
+                            <TriangleAlert />
+                            <div>
+                                <CardTitle>
+                                    Not Found
+                                </CardTitle>
+                                <CardDescription>
+                                    user with name containing '{search}' not found
+                                </CardDescription>
+                            </div>
+                        </div>
+                    </CardHeader>
+                </Card>
+            ) : (
+                <div>
+                    {usersPaginate.data.map(user => (
+                        <Card key={user.email} className={'mb-5 last:mb-0'}>
+                            <CardHeader>
+                                <div className={'flex items-center justify-between'}>
+                                    <div className={'flex items-center gap-2'}>
+                                        <Avatar className={'rounded-lg'}>
+                                            <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                            <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <CardTitle>
+                                                <div className={'flex items-center gap-1'}>
+                                                    {user.name}
+                                                    {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                </div>
+                                            </CardTitle>
+                                            <CardDescription>
+                                                {user.roles.name}
+                                            </CardDescription>
+                                        </div>
+                                    </div>
+                                    {(user.id !== auth.user.id && (
+                                        (auth.user.role_level === 1 && user.role_level > 1) ||
+                                        (auth.user.role_level === 2 && user.role_level > 2)
+                                    )) && (
+                                            <div className={'flex gap-5'}>
+                                                <Dialog onOpenChange={(open) => open && openEditDialog(user)}>
+                                                    <DialogTrigger asChild>
+                                                        <Button size={'icon'} variant={'outline'}>
+                                                            <Pencil />
+                                                        </Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent>
+                                                        <DialogHeader>
+                                                            <DialogTitle>
+                                                                <div className={'flex items-center gap-2'}>
+                                                                    <Avatar className={'rounded-lg'}>
+                                                                        <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                        <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                                    </Avatar>
+                                                                    <div>
+                                                                        <CardTitle>
+                                                                            <div className={'flex items-center gap-1'}>
+                                                                                {user.name}
+                                                                                {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                            </div>
+                                                                        </CardTitle>
+                                                                        <CardDescription className={'flex justify-start'}>
+                                                                            {user.roles.name}
+                                                                        </CardDescription>
+                                                                    </div>
+                                                                </div>
+                                                            </DialogTitle>
+                                                            <DialogDescription />
+                                                        </DialogHeader>
+                                                        <form onSubmit={handlePatchUser} className={'space-y-5'}>
+                                                            <div>
+                                                                <Label>
+                                                                    Name
+                                                                </Label>
+                                                                <Input placeholder={user.name} value={data.newName} onChange={(e) => setData('newName', e.target.value)} />
+                                                            </div>
+                                                            <div>
+                                                                <Label>
+                                                                    Role
+                                                                </Label>
+                                                                <Select value={data.newRoleLevelValue} onValueChange={value => setData('newRoleLevelValue', value)}>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder={'Select role'} />
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        <SelectGroup>
+                                                                            {roles.map(role => (
+                                                                                role.level != 1 && (
+                                                                                    <SelectItem key={role.level} value={role.level.toString()}>
+                                                                                        {role.name}
+                                                                                    </SelectItem>
+                                                                                )
+                                                                            ))}
+                                                                        </SelectGroup>
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            </div>
+                                                            <div>
+                                                                <Card>
+                                                                    <CardHeader>
+                                                                        <CardTitle>
+                                                                            Verify this user?
+                                                                        </CardTitle>
+                                                                        <CardDescription>
+                                                                            Verified users will be able to use the features on this website.
+                                                                        </CardDescription>
+                                                                    </CardHeader>
+                                                                    <CardContent>
+                                                                        <Switch checked={data.newIsUserVerified} onCheckedChange={checked => setData('newIsUserVerified', checked)} />
+                                                                    </CardContent>
+                                                                </Card>
+                                                            </div>
+                                                            <Button type={'submit'}>
+                                                                Save
+                                                            </Button>
+                                                        </form>
+                                                    </DialogContent>
+                                                </Dialog>
+                                                <Dialog>
+                                                    <DialogTrigger asChild>
+                                                        <Button size={'icon'} variant={'outline'}>
+                                                            <Trash2 />
+                                                        </Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent>
+                                                        <DialogHeader>
+                                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                                            <DialogDescription>
+                                                                This action cannot be undone. This will permanently delete this account
+                                                                and remove your data from our servers.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <Card>
+                                                            <CardHeader>
+                                                                <div className={'flex items-center justify-between'}>
+                                                                    <div className={'flex items-center gap-2'}>
+                                                                        <Avatar className={'rounded-lg'}>
+                                                                            <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                            <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                                        </Avatar>
+                                                                        <div>
+                                                                            <CardTitle>
+                                                                                <div className={'flex items-center gap-1'}>
+                                                                                    {user.name}
+                                                                                    {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                                </div>
+                                                                            </CardTitle>
+                                                                            <CardDescription>
+                                                                                {user.roles.name}
+                                                                            </CardDescription>
+                                                                        </div>
+                                                                    </div>
+                                                                    <Button variant={'destructive'} onClick={() => handleDeleteUser(user.id)}>
+                                                                        <Trash2 />
+                                                                        Delete
+                                                                    </Button>
+                                                                </div>
+                                                            </CardHeader>
+                                                        </Card>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            </div>
+                                        )}
                                 </div>
                             </CardHeader>
                         </Card>

@@ -34,11 +34,13 @@ class UsersManagementController extends Controller
             'id' => 'required|integer',
             'newName' => 'required|string',
             'newRoleLevelValue' => 'required|integer',
+            'newIsUserVerified' => 'boolean',
         ]);
 
         User::query()->where('id', '=', $request['id'])->update([
             'name' => $request['newName'],
             'role_level' => $request['newRoleLevelValue'],
+            'is_user_verified' => $request['newIsUserVerified'],
         ]);
     }
 
