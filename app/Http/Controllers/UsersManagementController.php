@@ -32,12 +32,14 @@ class UsersManagementController extends Controller
     {
         $request->validate([
             'id' => 'required|integer',
+            'newName' => 'required|string',
             'newRoleLevelValue' => 'required|integer',
         ]);
 
-        $user = User::find($request->input('id'));
-        $user->role_level = $request->input('newRoleLevelValue');
-        $user->save();
+        User::query()->where('id', '=', $request['id'])->update([
+            'name' => $request['newName'],
+            'role_level' => $request['newRoleLevelValue'],
+        ]);
     }
 
     /**

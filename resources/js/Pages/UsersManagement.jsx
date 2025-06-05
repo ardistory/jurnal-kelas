@@ -4,7 +4,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/Components/ui/ca
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select.js";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import { router, useForm } from "@inertiajs/react";
-import { BadgeCheck, Pencil, ShieldX, Trash2, TriangleAlert } from "lucide-react";
+import { BadgeCheck, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Pencil, ShieldX, Trash2, TriangleAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -23,11 +23,38 @@ import { Label } from "@/Components/ui/label.js";
 const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
     const [search, setSearch] = useState('');
     const [allUsersFiltered, setAllUsersFiltered] = useState([]);
+    const [_, setEditingUser] = useState(null);
 
     const { data, setData, patch, processing } = useForm({
         id: '',
+        newName: '',
         newRoleLevelValue: ''
     });
+
+    const openEditDialog = (user) => {
+        setEditingUser(user);
+
+        setData({
+            id: user.id,
+            newName: user.name,
+            newRoleLevelValue: user.role_level.toString()
+        });
+    };
+
+    const handlePatchUser = (e) => {
+        e.preventDefault();
+
+        patch(route('users-management.update'), {
+            onSuccess: () => {
+                toast('Success', { description: 'Update user successfully' });
+            },
+            onError: (errors) => {
+                const errorsKey = Object.keys(errors);
+
+                errorsKey.map(err => toast('Failed', { description: errors[err] }));
+            }
+        });
+    };
 
     const handleDeleteUser = (id) => {
         router.delete(route('users-management.destroy', { id }), {
@@ -43,25 +70,9 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
         setSearch('');
     };
 
-    const handleChangeRoleLevel = (userId, newRoleLevelValue) => {
-        setData({
-            id: userId,
-            newRoleLevelValue: newRoleLevelValue,
-        });
-
-        patch(route('users-management'), {
-            preserveScroll: true,
-            onError: (err) => {
-                toast('Failed', { description: err.id });
-                toast('Failed', { description: err.newRoleLevelValue });
-            },
-            onSuccess: () => toast('Success', { description: 'role updated' }),
-        });
-    };
-
     useEffect(() => {
         if (processing) {
-            toast('Process', { description: 'updating role...' });
+            toast('Process', { description: 'updating user...' });
         }
     }, [processing]);
 
@@ -97,7 +108,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                 </div>
                                 {user.role_level != 1 && (
                                     <div className={'flex gap-5'}>
-                                        <Dialog>
+                                        <Dialog onOpenChange={(open) => open && openEditDialog(user)}>
                                             <DialogTrigger asChild>
                                                 <Button size={'icon'} variant={'outline'}>
                                                     <Pencil />
@@ -106,13 +117,56 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                             <DialogContent>
                                                 <DialogHeader>
                                                     <DialogTitle>
-                                                        f
+                                                        <div className={'flex items-center gap-2'}>
+                                                            <Avatar className={'rounded-lg'}>
+                                                                <AvatarImage src={`/storage/avatar/${user.avatar}`} />
+                                                                <AvatarFallback className={'rounded-lg'}>CN</AvatarFallback>
+                                                            </Avatar>
+                                                            <div>
+                                                                <CardTitle>
+                                                                    <div className={'flex items-center gap-1'}>
+                                                                        {user.name}
+                                                                        {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
+                                                                    </div>
+                                                                </CardTitle>
+                                                                <CardDescription className={'flex justify-start'}>
+                                                                    {user.roles.name}
+                                                                </CardDescription>
+                                                            </div>
+                                                        </div>
                                                     </DialogTitle>
-                                                    <DialogDescription>
-                                                        f
-                                                    </DialogDescription>
+                                                    <DialogDescription />
                                                 </DialogHeader>
-                                                <p>tset</p>
+                                                <form onSubmit={handlePatchUser} className={'space-y-5'}>
+                                                    <div>
+                                                        <Label>
+                                                            Name
+                                                        </Label>
+                                                        <Input placeholder={user.name} value={data.newName} onChange={(e) => setData('newName', e.target.value)} />
+                                                    </div>
+                                                    <div>
+                                                        <Label>
+                                                            Role
+                                                        </Label>
+                                                        <Select value={data.newRoleLevelValue} onValueChange={value => setData('newRoleLevelValue', value)}>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder={'Select role'} />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectGroup>
+                                                                    {roles.map(role => (
+                                                                        <SelectItem key={role.level} value={role.level.toString()}>
+                                                                            {role.name}
+                                                                        </SelectItem>
+                                                                    ))}
+                                                                </SelectGroup>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    <Button type={'submit'}>
+                                                        Save
+                                                    </Button>
+                                                </form>
                                             </DialogContent>
                                         </Dialog>
                                         <Dialog>
@@ -205,7 +259,7 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                     </div>
                                     {user.role_level != 1 && (
                                         <div className={'flex gap-5'}>
-                                            <Dialog>
+                                            <Dialog onOpenChange={(open) => open && openEditDialog(user)}>
                                                 <DialogTrigger asChild>
                                                     <Button size={'icon'} variant={'outline'}>
                                                         <Pencil />
@@ -226,42 +280,43 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                                                             {(user.is_user_verified) ? (<BadgeCheck size={15} color={'#00aeff'} />) : null}
                                                                         </div>
                                                                     </CardTitle>
-                                                                    <CardDescription>
+                                                                    <CardDescription className={'flex justify-start'}>
                                                                         {user.roles.name}
                                                                     </CardDescription>
                                                                 </div>
                                                             </div>
                                                         </DialogTitle>
+                                                        <DialogDescription />
                                                     </DialogHeader>
-                                                    <form>
-                                                        <div className={'space-y-5'}>
-                                                            <div>
-                                                                <Label>
-                                                                    Name
-                                                                </Label>
-                                                                <Input value={user.name} />
-                                                            </div>
-                                                            <div>
-                                                                <Label>
-                                                                    Role
-                                                                </Label>
-                                                                <Select>
-                                                                    <SelectValue />
-                                                                    <SelectContent>
-                                                                        <SelectGroup key={user.id}>
-                                                                            {roles.map(role => (
-                                                                                <SelectItem value={role.level}>
-                                                                                    {role.name}
-                                                                                </SelectItem>
-                                                                            ))}
-                                                                        </SelectGroup>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </div>
-                                                            <Button>
-                                                                Save
-                                                            </Button>
+                                                    <form onSubmit={handlePatchUser} className={'space-y-5'}>
+                                                        <div>
+                                                            <Label>
+                                                                Name
+                                                            </Label>
+                                                            <Input placeholder={user.name} value={data.newName} onChange={(e) => setData('newName', e.target.value)} />
                                                         </div>
+                                                        <div>
+                                                            <Label>
+                                                                Role
+                                                            </Label>
+                                                            <Select value={data.newRoleLevelValue} onValueChange={value => setData('newRoleLevelValue', value)}>
+                                                                <SelectTrigger>
+                                                                    <SelectValue placeholder={'Select role'} />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectGroup>
+                                                                        {roles.map(role => (
+                                                                            <SelectItem key={role.level} value={role.level.toString()}>
+                                                                                {role.name}
+                                                                            </SelectItem>
+                                                                        ))}
+                                                                    </SelectGroup>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <Button type={'submit'}>
+                                                            Save
+                                                        </Button>
                                                     </form>
                                                 </DialogContent>
                                             </Dialog>
@@ -319,10 +374,15 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                         <CardHeader>
                             <Pagination>
                                 <PaginationContent>
+                                    {usersPaginate.current_page != usersPaginate.first_page_url.split('=')[1] && (
+                                        <Button size={'icon'} variant={'outline'} onClick={() => router.visit(usersPaginate.first_page_url)}>
+                                            <ChevronsLeft />
+                                        </Button>
+                                    )}
                                     {usersPaginate.prev_page_url && (
-                                        <PaginationItem>
-                                            <PaginationPrevious className={'cursor-pointer'} onClick={() => router.visit(usersPaginate.prev_page_url)} />
-                                        </PaginationItem>
+                                        <Button size={'icon'} variant={'outline'} onClick={() => router.visit(usersPaginate.prev_page_url)}>
+                                            <ChevronLeft />
+                                        </Button>
                                     )}
                                     {usersPaginate.links.map((link, index) => (
                                         (index != 0 && index != usersPaginate.links.length - 1 && link.active) ? (
@@ -340,9 +400,14 @@ const UsersManagement = ({ auth, usersPaginate, usersAll, roles }) => {
                                         ) : null
                                     ))}
                                     {usersPaginate.next_page_url && (
-                                        <PaginationItem>
-                                            <PaginationNext className={'cursor-pointer'} onClick={() => router.visit(usersPaginate.next_page_url)} />
-                                        </PaginationItem>
+                                        <Button size={'icon'} variant={'outline'} onClick={() => router.visit(usersPaginate.next_page_url)}>
+                                            <ChevronRight />
+                                        </Button>
+                                    )}
+                                    {usersPaginate.current_page != usersPaginate.last_page_url.split('=')[1] && (
+                                        <Button size={'icon'} variant={'outline'} onClick={() => router.visit(usersPaginate.last_page_url)}>
+                                            <ChevronsRight />
+                                        </Button>
                                     )}
                                 </PaginationContent>
                             </Pagination>
