@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
+  User,
 } from "lucide-react";
 
 import {
@@ -83,7 +81,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => router.visit(route('profile.edit'))}>
-                <BadgeCheck />
+                <User />
                 Profile
               </DropdownMenuItem>
               <DropdownMenuItem>
