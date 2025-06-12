@@ -11,8 +11,6 @@ Route::get('/', function () {
     return Inertia::render('Root', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
 })->middleware(['guest'])->name('root');
 
