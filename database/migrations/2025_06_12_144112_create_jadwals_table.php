@@ -21,6 +21,10 @@ return new class extends Migration
             $table->time('jam_selesai');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable(true);
+
+            $table->foreign('kelas_id')->references('kelas_id')->on('kelas');
+            $table->foreign('mapel_id')->references('mapel_id')->on('mata_pelajarans');
+            $table->foreign('guru_id')->references('guru_id')->on('gurus');
         });
     }
 
