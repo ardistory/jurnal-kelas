@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "ardistory/laravel-react-starter",
+    "name": "ardistory/laravel-react-breeze",
     "type": "project",
     "description": "Laravel react starter kit (with breeze).",
     "keywords": [
