@@ -19,12 +19,14 @@ return new class extends Migration
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'])->nullable(true);
             $table->time('jam_mulai');
             $table->time('jam_selesai');
+            $table->unsignedBigInteger('tahun_ajaran_id');
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('kelas_id')->references('kelas_id')->on('kelas');
             $table->foreign('mapel_id')->references('mapel_id')->on('mata_pelajarans');
             $table->foreign('guru_id')->references('guru_id')->on('gurus');
+            $table->foreign('tahun_ajaran_id')->references('tahun_ajaran_id')->on('tahun_ajarans');
         });
     }
 

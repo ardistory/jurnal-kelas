@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MataPelajaran extends Model
@@ -15,4 +16,9 @@ class MataPelajaran extends Model
     public $incrementing = true;
     public $timestamps = true;
     protected $guarded = [];
+
+    public function jadwal(): HasMany
+    {
+        return $this->hasMany(Jadwal::class, 'mapel_id', 'mapel_id');
+    }
 }

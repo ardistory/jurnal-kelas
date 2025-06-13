@@ -23,10 +23,12 @@ return new class extends Migration
             $table->string('nomor_telepon_siswa')->nullable(true);
             $table->string('nama_wali_murid')->nullable(true);
             $table->string('nomor_telepon_wali_murid')->nullable(true);
-            $table->unsignedBigInteger('kelas_id');
+            $table->unsignedBigInteger('kelas_id')->nullable('true');
             $table->enum('status_siswa', ['Aktif', 'Lulus', 'Pindah', 'Keluar'])->default('Aktif');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('kelas_id')->references('kelas_id')->on('kelas');
         });
     }
 
