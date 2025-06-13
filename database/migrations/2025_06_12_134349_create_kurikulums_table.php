@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nomor_telepon')->nullable(true);
             $table->date('tanggal_lahir')->nullable(true);
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable(true);
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('user_id')->on('users');
         });
@@ -31,6 +31,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('kurikulums', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
         Schema::dropIfExists('kurikulums');
     }
 };

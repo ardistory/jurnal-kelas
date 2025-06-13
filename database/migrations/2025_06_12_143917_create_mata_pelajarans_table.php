@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama_mapel');
             $table->text('deskripsi')->nullable(true);
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable(true);
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('mata_pelajarans', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
         Schema::dropIfExists('mata_pelajarans');
     }
 };

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('kelas_id')->unique();
             $table->unsignedBigInteger('tahun_ajaran_id')->unique();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable(true);
+            $table->softDeletes();
 
             $table->foreign('guru_id')->references('guru_id')->on('gurus');
             $table->foreign('kelas_id')->references('kelas_id')->on('kelas');
@@ -30,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('wali_kelas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
         Schema::dropIfExists('wali_kelas');
     }
 };

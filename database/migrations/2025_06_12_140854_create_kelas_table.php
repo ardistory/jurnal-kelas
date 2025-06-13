@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('jurusan')->nullable(true);
             $table->unsignedBigInteger('tahun_ajaran_id');
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable(true);
+            $table->softDeletes();
 
             $table->foreign('tahun_ajaran_id')->references('tahun_ajaran_id')->on('tahun_ajarans');
         });
@@ -28,6 +28,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('kelas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
         Schema::dropIfExists('kelas');
     }
 };

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('kelas_id');
             $table->enum('status_siswa', ['Aktif', 'Lulus', 'Pindah', 'Keluar'])->default('Aktif');
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable(true);
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +35,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('siswas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
         Schema::dropIfExists('siswas');
     }
 };

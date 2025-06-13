@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Jadwal extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'jadwals';
+    protected $primaryKey = 'jadwal_id';
+    protected $keyType = 'int';
+    public $incrementing = true;
+    public $timestamps = true;
+    protected $guarded = [];
+}
